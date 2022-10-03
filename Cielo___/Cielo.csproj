@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProjectGuid>{69CC7192-A7E2-4990-9C99-430B4E822DA0}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>CieloEcommerce</RootNamespace>
+    <AssemblyName>CieloEcommerce</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <Description>Integração em C# com o Webservice Cielo 1.</Description>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Externalconsole>true</Externalconsole>
+    <PlatformTarget>x86</PlatformTarget>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+    <DocumentationFile>bin\Debug\CieloEcommerce.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Externalconsole>true</Externalconsole>
+    <PlatformTarget>x86</PlatformTarget>
+    <DocumentationFile>bin\Release\CieloEcommerce.xml</DocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Serialization" />
+    <Reference Include="System.Net" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CieloException.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Cielo.cs" />
+    <Compile Include="Holder.cs" />
+    <Compile Include="Merchant.cs" />
+    <Compile Include="Order.cs" />
+    <Compile Include="PaymentMethod.cs" />
+    <Compile Include="Request\ConsultationRequest.cs" />
+    <Compile Include="Request\Element\TokenElement.cs" />
+    <Compile Include="Transaction.cs" />
+    <Compile Include="Token.cs" />
+    <Compile Include="Authorization.cs" />
+    <Compile Include="Authentication.cs" />
+    <Compile Include="Request\AuthorizationRequest.cs" />
+    <Compile Include="Request\TokenRequest.cs" />
+    <Compile Include="Request\Element\DadosEcElement.cs" />
+    <Compile Include="Request\Element\DadosPortadorElement.cs" />
+    <Compile Include="Request\TransactionRequest.cs" />
+    <Compile Include="Request\Element\DadosPedidoElement.cs" />
+    <Compile Include="Request\Element\FormaPagamentoElement.cs" />
+    <Compile Include="Request\Element\TransacaoElement.cs" />
+    <Compile Include="Request\Element\AutenticacaoElement.cs" />
+    <Compile Include="Request\Element\AutorizacaoElement.cs" />
+    <Compile Include="Request\Element\AbstractElement.cs" />
+    <Compile Include="Request\Element\RetornoTokenElement.cs" />
+    <Compile Include="Request\CancellationRequest.cs" />
+    <Compile Include="Request\Element\ErroElement.cs" />
+    <Compile Include="Request\CaptureRequest.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup />
+</Project>

@@ -1,0 +1,20 @@
+
+{
+    "region" : "sa-east-1",
+    "configuration" : "Debug",
+    "framework"     : "netcoreapp2.2",
+    "self-contained" : false,
+    "application"    : "APIAlturas",
+    "environment"    : "APIAlturas-dev",
+    "enable-xray"    : false,
+    "enhanced-health-type" : "basic",
+    "additional-options"   : "\"aws:autoscaling:launchconfiguration,SecurityGroups\"=\"sg-813d86f0\";\"aws:ec2:vpc,Subnets\"=\"subnet-ef8c18b4\"",
+    "solution-stack"       : "64bit Amazon Linux 2 v2.0.1 running .NET Core",
+    "environment-type"     : "SingleInstance",
+    "cname"                : "apialturas-dev",
+    "instance-type"        : "t3a.medium",
+    "key-pair"             : "LOGIN_SERVIDOR_AMAZON",
+    "instance-profile"     : "aws-elasticbeanstalk-ec2-role",
+    "service-role"         : "aws-elasticbeanstalk-service-role",
+    "proxy-server"         : "nginx"
+}

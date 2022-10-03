@@ -1,0 +1,78 @@
+{
+	"id": 67597,
+	"shortReference": 67597,
+	"displayId": 67597,
+	"orderTiming": "IMMEDIATE",
+	"reference": "0982ef19-6bbf-4c60-8f92-10c801447934",
+	"zReference": "47",
+	"createdAt": "2021-11-07T13:00:23.47",
+	"dataPedido": "2021-11-07T13:00:23.47",
+	"scheduled": false,
+	"isSchedule": false,
+	"observations": null,
+	"type": "TOTEN",
+	"orderType": "TOTEN",
+	"customer": {
+		"taxPayerIdentificationNumber": null,
+		"documentNumber": null
+	},
+	"items": [
+		{
+			"name": "Torre 2 Litros",
+			"namePrincipal": "Torre 2 Litros",
+			"tamanho": "Grande",
+			"quantity": 1,
+			"unitPriceCalc": 20.0,
+			"unitPrice": 20.0,
+			"optionsPrice": 0.0,
+			"price": 20.0,
+			"totalItem": 0.0,
+			"totalPrice": 20.0,
+			"addition": 0,
+			"discount": 0,
+			"options": [],
+			"externalCode": 3011,
+			"observations": null,
+			"subItemsPrice": 0.0,
+			"subItems": [],
+			"subMeioMeios": []
+		}
+	],
+	"subTotal": 20.0,
+	"totalPrice": 20.0,
+	"deliveryFee": 0.0,
+	"deliveryAddress": null,
+	"deliveryDateTime": "2021-11-07T14:00:23.47",
+	"preparationStartDateTime": "2021-11-07T13:00:23.47",
+	"methods": [
+		{
+			"name": null,
+			"formaPagamento": null,
+			"currency": "BRL",
+			"value": 20.0,
+			"prepaid": false,
+			"type": false,
+			"changeFor": 0.0
+		}
+	],
+	"payments": [
+		{
+			"name": null,
+			"formaPagamento": null,
+			"value": 20.0,
+			"prepaid": false,
+			"type": false,
+			"changeFor": 0.0
+		}
+	],
+	"benefits": [
+		{
+			"value": 0.0,
+			"sponsorshipValues": {
+				"ifood": 0,
+				"merchant": 0.0
+			},
+			"target": "CART"
+		}
+	]
+}

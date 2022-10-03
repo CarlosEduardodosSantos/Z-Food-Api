@@ -1,0 +1,12 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Apollos.OneSignal.RestAPIv3.Client\Apollos.OneSignal.RestAPIv3.Client.csproj" />
+  </ItemGroup>
+
+</Project>

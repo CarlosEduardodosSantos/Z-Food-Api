@@ -1,0 +1,108 @@
+{
+	"id": 67292,
+	"shortReference": 67292,
+	"reference": "0d89eb64-54ad-47ed-bcd7-1508ce47db83",
+	"zReference": null,
+	"createdAt": "2021-11-06T20:12:45.117",
+	"scheduled": false,
+	"observations": "",
+	"totalVoucher": 0.0,
+	"type": "DELIVERY",
+	"customer": {
+		"id": "b75cf73d-6732-4b00-9098-d985ad7ec061",
+		"name": "Taila Roque",
+		"phone": "(16)99419-8401",
+		"email": "taila.roque@hotmail.com",
+		"taxPayerIdentificationNumber": ""
+	},
+	"items": [
+		{
+			"name": "Refrigerante 2litros",
+			"tamanho": "Grande",
+			"quantity": 1,
+			"price": 11.0,
+			"totalPrice": 11.0,
+			"externalCode": 31,
+			"observations": null,
+			"subItemsPrice": 0.0,
+			"subItems": [
+				{
+					"name": "Escolha a bebida Coca Cola Zero",
+					"tipo": 1,
+					"quantity": 1,
+					"price": 0.0,
+					"totalPrice": 0.0,
+					"externalCode": null
+				}
+			],
+			"subMeioMeios": []
+		},
+		{
+			"name": "A-esfiha de Calabresa",
+			"tamanho": "Grande",
+			"quantity": 6,
+			"price": 3.05,
+			"totalPrice": 3.05,
+			"externalCode": 54,
+			"observations": null,
+			"subItemsPrice": 0.0,
+			"subItems": [],
+			"subMeioMeios": []
+		},
+		{
+			"name": "A-esfiha de Frango Com Catupiry",
+			"tamanho": "Grande",
+			"quantity": 2,
+			"price": 3.4,
+			"totalPrice": 3.4,
+			"externalCode": 53,
+			"observations": "",
+			"subItemsPrice": 0.0,
+			"subItems": [],
+			"subMeioMeios": []
+		},
+		{
+			"name": "A-esfiha de Carne",
+			"tamanho": "Grande",
+			"quantity": 6,
+			"price": 3.05,
+			"totalPrice": 3.05,
+			"externalCode": 52,
+			"observations": "",
+			"subItemsPrice": 0.0,
+			"subItems": [],
+			"subMeioMeios": []
+		}
+	],
+	"subTotal": 54.4,
+	"totalPrice": 57.4,
+	"deliveryFee": 3.0,
+	"deliveryAddress": {
+		"formattedAddress": "Rua Anita Beloube, 340",
+		"state": "SP",
+		"city": "Ribeirão Preto",
+		"neighborhood": "Quintino Facci II",
+		"postalCode": "14070-070",
+		"complement": "Casa 1"
+	},
+	"deliveryDateTime": "2021-11-06T21:12:45.117",
+	"preparationStartDateTime": "2021-11-06T20:12:45.117",
+	"payments": [
+		{
+			"name": "Na entrega MasterCard - Crédito",
+			"value": 57.4,
+			"prepaid": false,
+			"changeFor": 0.0
+		}
+	],
+	"benefits": [
+		{
+			"value": 0.0,
+			"sponsorshipValues": {
+				"ifood": 0,
+				"merchant": 0.0
+			},
+			"target": "CART"
+		}
+	]
+}
