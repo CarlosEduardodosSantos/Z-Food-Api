@@ -24,6 +24,5 @@ namespace APIAlturas.ViewModels
         public int UsuarioId { get; set; }
             
         public string Login { get; set; }
-        public bool Frete { get; set; }
     }
 }

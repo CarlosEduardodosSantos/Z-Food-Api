@@ -106,8 +106,8 @@ namespace APIAlturas
 
         public void Insert(CartaoConsumo consumo)
         {
-            var sql = "Insert Into CartaoConsumo(CartaoConsumoId, Numero, Descricao, Valor, Validade, Cpf, Desconto, Nome, RestauranteId, SaldoAtual, Grupo, RegistradoPor)" +
-                      "Values (@CartaoConsumoId, @Numero, @Descricao, @Valor, @Validade, @Cpf, @Desconto, @Nome, @RestauranteId, @SaldoAtual, @Grupo, @RegistradoPor)";
+            var sql = "Insert Into CartaoConsumo(CartaoConsumoId, Numero, Descricao, Valor, Validade, Cpf, Desconto, Nome, RestauranteId, SaldoAtual, Grupo, RegistradoPor, Frete)" +
+                      "Values (@CartaoConsumoId, @Numero, @Descricao, @Valor, @Validade, @Cpf, @Desconto, @Nome, @RestauranteId, @SaldoAtual, @Grupo, @RegistradoPor, @Frete)";
             using (SqlConnection conn = new SqlConnection(
                 _configuration.GetConnectionString("ViPFood")))
             {
@@ -126,7 +126,8 @@ namespace APIAlturas
                         RestauranteId = consumo.RestauranteId,
                         SaldoAtual = consumo.SaldoAtual,
                         Grupo = consumo.Grupo,
-                        RegistradoPor = consumo.RegistradoPor
+                        RegistradoPor = consumo.RegistradoPor,
+                        Frete = consumo.Frete
 
                     }); ;
                 conn.Close();
@@ -135,7 +136,7 @@ namespace APIAlturas
 
         public void Update(CartaoConsumo consumo)
         {
-            var sql = "Update CartaoConsumo set Numero = @Numero, Descricao =@Descricao, Valor =@Valor, Validade =@Validade, Cpf=@Cpf, Desconto=@Desconto, Nome=@Nome, RestauranteId=@RestauranteId, SaldoAtual=@SaldoAtual, Grupo=@Grupo " +
+            var sql = "Update CartaoConsumo set Numero = @Numero, Descricao =@Descricao, Valor =@Valor, Validade =@Validade, Cpf=@Cpf, Desconto=@Desconto, Nome=@Nome, RestauranteId=@RestauranteId, SaldoAtual=@SaldoAtual, Grupo=@Grupo, Frete=@Frete " +
                       " where CartaoConsumoId = @CartaoConsumoId";
             using (SqlConnection conn = new SqlConnection(
                 _configuration.GetConnectionString("ViPFood")))
@@ -155,6 +156,7 @@ namespace APIAlturas
                         RestauranteId = consumo.RestauranteId,
                         SaldoAtual = consumo.SaldoAtual,
                         Grupo = consumo.Grupo,
+                        RegistradoPor = consumo.RegistradoPor
 
                     });
                 conn.Close();
@@ -242,8 +244,8 @@ namespace APIAlturas
 
         public void InsertMov(CartaoConsumoMov consumo)
          {
-             var sql = "Insert Into CartaoConsumoMov(CartaoConsumoMovId, CartaoConsumoId, DataMov, Historico, Saldo, TipoMov, UsuarioId, Login, Frete) " +
-                       "Values (@CartaoConsumoMovId, @CartaoConsumoId, @DataMov, @Historico, @Saldo, @TipoMov, @UsuarioId, @Login, @Frete)";
+             var sql = "Insert Into CartaoConsumoMov(CartaoConsumoMovId, CartaoConsumoId, DataMov, Historico, Saldo, TipoMov, UsuarioId, Login) " +
+                       "Values (@CartaoConsumoMovId, @CartaoConsumoId, @DataMov, @Historico, @Saldo, @TipoMov, @UsuarioId, @Login)";
              using (SqlConnection conn = new SqlConnection(
                  _configuration.GetConnectionString("ViPFood")))
              {
@@ -259,7 +261,6 @@ namespace APIAlturas
                          TipoMov = consumo.TipoMov,
                          UsuarioId = consumo.UsuarioId,
                          Login = consumo.Login,
-                         Frete = consumo.Frete
 
                      });
                  conn.Close();

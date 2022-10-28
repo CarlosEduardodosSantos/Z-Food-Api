@@ -34,6 +34,7 @@ namespace APIAlturas.ViewModels
 
         public string Grupo { get; set; }
         public string RegistradoPor { get; set; }
+        public bool Frete { get; set; }
 
     }
 }

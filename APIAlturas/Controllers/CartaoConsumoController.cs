@@ -232,6 +232,7 @@ namespace APIAlturas.Controllers
                         datau.Grupo = cartao.Grupo;
                         datau.RegistradoPor = cartao.RegistradoPor;
                         datau.SaldoAtual = soma;
+                        datau.Frete = cartao.Frete;
                         _cartaoDao.Update(datau);
                         valorRetorno = valorDesc;
                         saldo = soma;
@@ -257,6 +258,7 @@ namespace APIAlturas.Controllers
                     datau.Grupo = cartao.Grupo;
                     datau.RegistradoPor = cartao.RegistradoPor;
                     datau.SaldoAtual = credito;
+                    datau.Frete = cartao.Frete;
                     _cartaoDao.Update(datau);
                     valorRetorno = cartaoModel.Valor;
                     saldo = credito;
@@ -272,11 +274,10 @@ namespace APIAlturas.Controllers
                     Historico = cartaoModel.Historico,
                     UsuarioId = cartaoModel.UsuarioId,
                     Login = cartaoModel.Login,
-                    Frete = cartaoModel.Frete
                 };
 
                 _cartaoDao.InsertMov(cartaoMov);
-                    return new { Aproved = true, Mensage = "Operação realizada com sucesso.", Valor = valorRetorno, Saldo = saldo, Frete = cartaoMov.Frete ,Desconto = cartao.Desconto };
+                    return new { Aproved = true, Mensage = "Operação realizada com sucesso.", Valor = valorRetorno, Saldo = saldo, Frete = cartao.Frete ,Desconto = cartao.Desconto };
                 
             }
             catch (Exception e)
@@ -316,6 +317,7 @@ namespace APIAlturas.Controllers
                         datau.RestauranteId = data.RestauranteId;
                         datau.Grupo = data.Grupo;
                         datau.RegistradoPor = datau.RegistradoPor;
+                        datau.Frete = datau.Frete;
                         datau.SaldoAtual = soma;
                         _cartaoDao.Update(datau);
                         cartao.TipoMov = 2;
@@ -344,6 +346,7 @@ namespace APIAlturas.Controllers
                         datau.RestauranteId = data.RestauranteId;
                         datau.Grupo = data.Grupo;
                         datau.RegistradoPor = datau.RegistradoPor;
+                        datau.Frete = datau.Frete;
                         datau.SaldoAtual = Convert.ToDecimal(soma);
                         _cartaoDao.Update(datau);
                         cartao.TipoMov = 1;
