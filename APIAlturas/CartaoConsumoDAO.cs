@@ -156,8 +156,8 @@ namespace APIAlturas
                         RestauranteId = consumo.RestauranteId,
                         SaldoAtual = consumo.SaldoAtual,
                         Grupo = consumo.Grupo,
-                        RegistradoPor = consumo.RegistradoPor
-
+                        RegistradoPor = consumo.RegistradoPor,
+                        Frete = consumo.Frete
                     });
                 conn.Close();
             }
