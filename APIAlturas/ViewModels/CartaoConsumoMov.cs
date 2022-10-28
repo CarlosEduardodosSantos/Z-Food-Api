@@ -22,7 +22,8 @@ namespace APIAlturas.ViewModels
         public int TipoMov { get; set; }
 
         public int UsuarioId { get; set; }
-
+            
         public string Login { get; set; }
+        public bool Frete { get; set; }
     }
 }

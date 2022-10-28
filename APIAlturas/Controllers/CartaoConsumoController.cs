@@ -212,6 +212,7 @@ namespace APIAlturas.Controllers
                 var valorDesc = cartaoModel.Valor - (cartaoModel.Valor / 100) * cartao.Desconto;
                 var soma = cartao.SaldoAtual - valorDesc;
                 var valorRetorno = cartao.SaldoAtual;
+                var saldo = cartao.SaldoAtual;
 
                 if (cartaoModel.TipoMov == 2)
                 {
@@ -233,6 +234,7 @@ namespace APIAlturas.Controllers
                         datau.SaldoAtual = soma;
                         _cartaoDao.Update(datau);
                         valorRetorno = valorDesc;
+                        saldo = soma;
 
                     }
 
@@ -257,6 +259,7 @@ namespace APIAlturas.Controllers
                     datau.SaldoAtual = credito;
                     _cartaoDao.Update(datau);
                     valorRetorno = cartaoModel.Valor;
+                    saldo = credito;
 
                 }
 
@@ -268,11 +271,12 @@ namespace APIAlturas.Controllers
                     TipoMov = cartaoModel.TipoMov,
                     Historico = cartaoModel.Historico,
                     UsuarioId = cartaoModel.UsuarioId,
-                    Login = cartaoModel.Login
+                    Login = cartaoModel.Login,
+                    Frete = cartaoModel.Frete
                 };
 
                 _cartaoDao.InsertMov(cartaoMov);
-                    return new { Aproved = true, Mensage = "Operação realizada com sucesso.", Valor = valorRetorno, Desconto = cartao.Desconto };
+                    return new { Aproved = true, Mensage = "Operação realizada com sucesso.", Valor = valorRetorno, Saldo = saldo, Frete = cartaoMov.Frete ,Desconto = cartao.Desconto };
                 
             }
             catch (Exception e)

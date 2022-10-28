@@ -242,8 +242,8 @@ namespace APIAlturas
 
         public void InsertMov(CartaoConsumoMov consumo)
          {
-             var sql = "Insert Into CartaoConsumoMov(CartaoConsumoMovId, CartaoConsumoId, DataMov, Historico, Saldo, TipoMov, UsuarioId, Login) " +
-                       "Values (@CartaoConsumoMovId, @CartaoConsumoId, @DataMov, @Historico, @Saldo, @TipoMov, @UsuarioId, @Login)";
+             var sql = "Insert Into CartaoConsumoMov(CartaoConsumoMovId, CartaoConsumoId, DataMov, Historico, Saldo, TipoMov, UsuarioId, Login, Frete) " +
+                       "Values (@CartaoConsumoMovId, @CartaoConsumoId, @DataMov, @Historico, @Saldo, @TipoMov, @UsuarioId, @Login, @Frete)";
              using (SqlConnection conn = new SqlConnection(
                  _configuration.GetConnectionString("ViPFood")))
              {
@@ -258,7 +258,8 @@ namespace APIAlturas
                          Saldo = consumo.Saldo,
                          TipoMov = consumo.TipoMov,
                          UsuarioId = consumo.UsuarioId,
-                         Login = consumo.Login
+                         Login = consumo.Login,
+                         Frete = consumo.Frete
 
                      });
                  conn.Close();
