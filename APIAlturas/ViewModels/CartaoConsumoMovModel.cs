@@ -16,5 +16,6 @@ namespace APIAlturas.ViewModels
 
         public int UsuarioId { get; set; }
         public string Login { get; set; }
+        public int Metodo { get; set; }
     }
 }

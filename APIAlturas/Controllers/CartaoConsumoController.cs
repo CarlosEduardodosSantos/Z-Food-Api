@@ -210,13 +210,17 @@ namespace APIAlturas.Controllers
 
 
                 var valorDesc = cartaoModel.Valor - (cartaoModel.Valor / 100) * cartao.Desconto;
+                if (cartaoModel.Metodo == 5)
+                {
+                    valorDesc = cartaoModel.Valor;
+                }
                 var soma = cartao.SaldoAtual - valorDesc;
                 var valorRetorno = cartao.SaldoAtual;
                 var saldo = cartao.SaldoAtual;
 
                 if (cartaoModel.TipoMov == 2)
                 {
-                    if (soma <= 0) { return new { Aproved = false, Mensage = "Saldo indisponível." }; }
+                    if (soma < 0) { return new { Aproved = false, Mensage = "Saldo indisponível." }; }
                     else
                     {
                         CartaoConsumo datau = new CartaoConsumo();
@@ -274,6 +278,7 @@ namespace APIAlturas.Controllers
                     Historico = cartaoModel.Historico,
                     UsuarioId = cartaoModel.UsuarioId,
                     Login = cartaoModel.Login,
+                    Metodo = cartaoModel.Metodo
                 };
 
                 _cartaoDao.InsertMov(cartaoMov);
@@ -302,7 +307,7 @@ namespace APIAlturas.Controllers
                    
                     var data = _cartaoDao.ObterPorId(cartao.CartaoConsumoId.ToString()).FirstOrDefault();
                     var soma = data.SaldoAtual + (mov.Saldo - (mov.Saldo * (data.Desconto / Convert.ToDecimal(100.00))))-(cartao.Saldo+(cartao.Saldo*(data.Desconto/ Convert.ToDecimal(100.00))));
-                    if (soma <= 0) { return new { errors = true, message = "O cartão está sem saldo!" }; }
+                    if (soma < 0) { return new { errors = true, message = "O cartão está sem saldo!" }; }
                     else
                     {
                         CartaoConsumo datau = new CartaoConsumo();
@@ -329,7 +334,7 @@ namespace APIAlturas.Controllers
                 {
                     var data = _cartaoDao.ObterPorId(cartao.CartaoConsumoId.ToString()).FirstOrDefault();
                     var soma = (data.SaldoAtual - mov.Saldo) + cartao.Saldo;
-                    if (soma <= 0) { return new { errors = true, message = "O cartão está sem saldo!" }; }
+                    if (soma < 0) { return new { errors = true, message = "O cartão está sem saldo!" }; }
 
 
                     else

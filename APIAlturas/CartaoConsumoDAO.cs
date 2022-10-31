@@ -244,8 +244,8 @@ namespace APIAlturas
 
         public void InsertMov(CartaoConsumoMov consumo)
          {
-             var sql = "Insert Into CartaoConsumoMov(CartaoConsumoMovId, CartaoConsumoId, DataMov, Historico, Saldo, TipoMov, UsuarioId, Login) " +
-                       "Values (@CartaoConsumoMovId, @CartaoConsumoId, @DataMov, @Historico, @Saldo, @TipoMov, @UsuarioId, @Login)";
+             var sql = "Insert Into CartaoConsumoMov(CartaoConsumoMovId, CartaoConsumoId, DataMov, Historico, Saldo, TipoMov, UsuarioId, Login, Metodo) " +
+                       "Values (@CartaoConsumoMovId, @CartaoConsumoId, @DataMov, @Historico, @Saldo, @TipoMov, @UsuarioId, @Login, @Metodo)";
              using (SqlConnection conn = new SqlConnection(
                  _configuration.GetConnectionString("ViPFood")))
              {
@@ -261,6 +261,7 @@ namespace APIAlturas
                          TipoMov = consumo.TipoMov,
                          UsuarioId = consumo.UsuarioId,
                          Login = consumo.Login,
+                         Metodo = consumo.Metodo
 
                      });
                  conn.Close();
@@ -269,7 +270,7 @@ namespace APIAlturas
 
          public void UpdateMov(CartaoConsumoMov consumo)
          {
-             var sql = "Update CartaoConsumoMov set  DataMov = @DataMov, Historico = @Historico, Saldo = @Saldo, TipoMov = @TipoMov, UsuarioId = @UsuarioId, Login = @Login" +
+             var sql = "Update CartaoConsumoMov set  DataMov = @DataMov, Historico = @Historico, Saldo = @Saldo, TipoMov = @TipoMov, UsuarioId = @UsuarioId, Login = @Login, Metodo = @Metodo" +
                        " where CartaoConsumoMovId = @CartaoConsumoMovId";
              using (SqlConnection conn = new SqlConnection(
                  _configuration.GetConnectionString("ViPFood")))
@@ -285,7 +286,8 @@ namespace APIAlturas
                          Saldo = consumo.Saldo,
                          TipoMov = consumo.TipoMov,
                          UsuarioId = consumo.UsuarioId,
-                         Login = consumo.Login
+                         Login = consumo.Login,
+                         Metodo = consumo.Metodo
 
                      });
                  conn.Close();
@@ -322,5 +324,7 @@ namespace APIAlturas
                 conn.Close();
             }
         }
+
+        //Caixa1
     }
 }
