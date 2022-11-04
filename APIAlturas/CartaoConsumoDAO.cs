@@ -326,5 +326,138 @@ namespace APIAlturas
         }
 
         //Caixa1
+
+        public List<Caixa1> ObterTodosCx1(DateTime data)
+        {
+
+            using (SqlConnection conn = new SqlConnection(
+                _configuration.GetConnectionString("ViPFood")))
+            {
+                conn.Open();
+                var appcaixa = conn
+                    .Query<Caixa1>("select * from CaixaCartao where Fechado = 0 and Dia = @data", new { data })
+                    .ToList();
+                conn.Close();
+
+                return appcaixa;
+            }
+        }
+
+        public List<Caixa1> ObterCx1PorId(int Nro)
+        {
+
+            using (SqlConnection conn = new SqlConnection(
+                _configuration.GetConnectionString("ViPFood")))
+            {
+                conn.Open();
+                var caixa = conn
+                    .Query<Caixa1>("select * from CaixaCartao where Nro = @Nro", new { Nro })
+                    .ToList();
+                conn.Close();
+
+                return caixa;
+            }
+
+        }
+
+        public void InsertCx1(Caixa1 caixa)
+        {
+            var sql = "Insert Into CaixaCartao(Nro, Historico, Login, Data, Fechado, Valor, Metodo, Dia)" +
+                      "Values (@Nro, @Historico, @Login, @Data, @Fechado, @Valor, @Metodo, @Dia)";
+            using (SqlConnection conn = new SqlConnection(
+                _configuration.GetConnectionString("ViPFood")))
+            {
+                conn.Open();
+                conn.Query(sql,
+                    new
+                    {
+
+                        Nro = caixa.Nro,
+                        Historico = caixa.Historico,
+                        Login = caixa.Login,
+                        Data = DateTime.Now,
+                        Fechado = 0,
+                        Valor = caixa.Valor,
+                        Metodo = caixa.Metodo,
+                        Dia = DateTime.Now
+
+                    });
+                conn.Close();
+            }
+        }
+
+        public void FecharCx1(DateTime data)
+        {
+            var sql = "Update CaixaCartao set DataFechamento=@DataFechamento, Fechado= 1" +
+                      " where Dia = @Data";
+            using (SqlConnection conn = new SqlConnection(
+                _configuration.GetConnectionString("ViPFood")))
+            {
+                conn.Open();
+                conn.Query(sql,
+                    new
+                    {
+                        Data = data,
+                        DataFechamento = DateTime.Now,
+                    });
+                conn.Close();
+            }
+        }
+
+        //auditoria
+
+        public List<AuditoriaConsumo> ObterAuditoriaDia(DateTime data)
+        {
+
+            using (SqlConnection conn = new SqlConnection(
+                _configuration.GetConnectionString("ViPFood")))
+            {
+                conn.Open();
+                var appcaixa = conn
+                    .Query<AuditoriaConsumo>("select * from AuditoriaConsumo where Dia = @data", new { data })
+                    .ToList();
+                conn.Close();
+
+                return appcaixa;
+            }
+        }
+
+        public List<AuditoriaConsumo> ObterAuditoriaTodos()
+        {
+
+            using (SqlConnection conn = new SqlConnection(
+                _configuration.GetConnectionString("ViPFood")))
+            {
+                conn.Open();
+                var appcaixa = conn
+                    .Query<AuditoriaConsumo>("select * from AuditoriaConsumo")
+                    .ToList();
+                conn.Close();
+
+                return appcaixa;
+            }
+        }
+
+        public void InsertAuditoria(AuditoriaConsumo caixa)
+        {
+            var sql = "Insert Into AuditoriaConsumo(Historico, Login, Dia, Data, Valor)" +
+                      "Values (@Historico, @Login, @Dia, @Data, @Valor)";
+            using (SqlConnection conn = new SqlConnection(
+                _configuration.GetConnectionString("ViPFood")))
+            {
+                conn.Open();
+                conn.Query(sql,
+                    new
+                    {
+                        Historico = caixa.Historico,
+                        Login = caixa.Login,
+                        Dia = DateTime.Now,
+                        Data = DateTime.Now,
+                        Valor = caixa.Valor
+
+                    });
+                conn.Close();
+            }
+        }
     }
 }
