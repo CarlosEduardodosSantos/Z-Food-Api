@@ -247,6 +247,10 @@ namespace APIAlturas.Controllers
                 var valorRetorno = cartao.SaldoAtual;
                 var saldo = cartao.SaldoAtual;
                 var login = "Consumidor";
+                if(cartaoModel.Login != null)
+                {
+                    login = cartaoModel.Login;
+                }
                 var imp = "";
 
                 if (cartaoModel.TipoMov == 2)
@@ -301,10 +305,6 @@ namespace APIAlturas.Controllers
 
                 }
 
-                if(cartaoModel.TipoMov == 2 && cartaoModel.Metodo == 5)
-                {
-                    login = cartaoModel.Login;
-                }
 
                 var cartaoMov = new CartaoConsumoMov()
                 {
@@ -561,7 +561,7 @@ namespace APIAlturas.Controllers
                     Valor = total
                 };
 
-                _cartaoDao.FecharCx1(data);
+                _cartaoDao.FecharCx1(data, login);
                 _cartaoDao.InsertAuditoria(auditoria);
                 return new
                 {

@@ -11,12 +11,15 @@ namespace APIAlturas.Controllers
     [Route("api/[controller]")]
     public class UsuarioCartaoConsumoController : Controller
     {
+        private readonly CartaoConsumoDAO _cartaoDao;
         private readonly UsuariosCartaoConsumoDao _usuariosDAL;
 
-        public UsuarioCartaoConsumoController(UsuariosCartaoConsumoDao usuariosDAL)
+        public UsuarioCartaoConsumoController(UsuariosCartaoConsumoDao usuariosDAL, CartaoConsumoDAO cartaoDao)
         {
             _usuariosDAL = usuariosDAL;
+            _cartaoDao = cartaoDao;
         }
+
 
         [HttpGet("obterLogin/{Login}/{Senha}")]
         public UsuariosCartaoConsumoModel ObterLoginPorId(string Login, string Senha)
@@ -55,7 +58,7 @@ namespace APIAlturas.Controllers
                 try
                 {
                     _usuariosDAL.Insert(usuario);
-                    return new
+                return new
                     {
                         errors = false,
                         message = "Cadastro efetuado com sucesso."
