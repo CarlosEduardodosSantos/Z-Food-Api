@@ -21,6 +21,7 @@ namespace APIAlturas.Controllers
             Implantação = 5,
             Negativa = 0
         }
+
         private readonly CartaoConsumoDAO _cartaoDao;
 
         public CartaoConsumoController(CartaoConsumoDAO cartaoDao)
@@ -92,6 +93,16 @@ namespace APIAlturas.Controllers
                 {
                     cartao.CartaoConsumoId = cartao.CartaoConsumoId == Guid.Empty ? Guid.NewGuid() : cartao.CartaoConsumoId;
                     _cartaoDao.Insert(cartao);
+
+                    var auditoria = new AuditoriaConsumo()
+                    {
+                        Historico = "Novo Cartão Registrado " + cartao.Numero,
+                        Login = cartao.RegistradoPor
+                    };
+
+                    _cartaoDao.InsertAuditoria(auditoria);
+
+
                     return new
                     {
                         errors = false,
@@ -144,7 +155,16 @@ namespace APIAlturas.Controllers
 
             try
             {
+                var data = _cartaoDao.ObterPorId(id).FirstOrDefault();
+                var auditoria = new AuditoriaConsumo()
+                {
+                    Historico = "Cartão Deletado " + data.Numero,
+                    Login = data.RegistradoPor
+                };
+
                 _cartaoDao.Delete(id);
+                _cartaoDao.InsertAuditoria(auditoria);
+
                 return new
                 {
                     errors = false,
@@ -226,6 +246,8 @@ namespace APIAlturas.Controllers
                 var soma = cartao.SaldoAtual - valorDesc;
                 var valorRetorno = cartao.SaldoAtual;
                 var saldo = cartao.SaldoAtual;
+                var login = "Consumidor";
+                var imp = "";
 
                 if (cartaoModel.TipoMov == 2)
                 {
@@ -275,7 +297,13 @@ namespace APIAlturas.Controllers
                     _cartaoDao.Update(datau);
                     valorRetorno = cartaoModel.Valor;
                     saldo = credito;
+                    login = cartaoModel.Login;
 
+                }
+
+                if(cartaoModel.TipoMov == 2 && cartaoModel.Metodo == 5)
+                {
+                    login = cartaoModel.Login;
                 }
 
                 var cartaoMov = new CartaoConsumoMov()
@@ -286,7 +314,7 @@ namespace APIAlturas.Controllers
                     TipoMov = cartaoModel.TipoMov,
                     Historico = cartaoModel.Historico,
                     UsuarioId = cartaoModel.UsuarioId,
-                    Login = cartaoModel.Login,
+                    Login = login,
                     Metodo = cartaoModel.Metodo
                 };
 
@@ -296,12 +324,17 @@ namespace APIAlturas.Controllers
                     Historico = "Movimentação Cartão Consumo",
                     Login = cartaoMov.Login,
                     Valor = cartaoMov.Saldo,
-                    Metodo = cartaoMov.Metodo
+                    Metodo = cartaoMov.Metodo,
+                    MovId = cartaoMov.CartaoConsumoMovId
                 };
 
+                if(cartaoMov.TipoMov == 2 && cartaoMov.Metodo == 5)
+                {
+                    imp = " Negativa";
+                }
                 var auditoria = new AuditoriaConsumo()
                 {
-                    Historico = "Movimentação Cartão Consumo " + (metodos)cartaoMov.Metodo,
+                    Historico = "Movimentação Cartão Consumo " + cartao.Numero + " " +(metodos)cartaoMov.Metodo + imp,
                     Login = cartaoMov.Login,
                     Valor = cartaoMov.Saldo
                 };
@@ -449,7 +482,18 @@ namespace APIAlturas.Controllers
                     datau.SaldoAtual = Convert.ToDecimal(soma);
                     _cartaoDao.Update(datau);
                 }
+
                 _cartaoDao.DeleteMov(id);
+                _cartaoDao.DeleteCaix(id);
+
+                var auditoria = new AuditoriaConsumo()
+                {
+                    Historico = "Estorno Cartão Consumo " + data.Numero,
+                    Login = mov.Login,
+                    Valor = mov.Saldo
+                };
+                _cartaoDao.InsertAuditoria(auditoria);
+
                 return new
                 {
                     errors = false,
@@ -491,10 +535,10 @@ namespace APIAlturas.Controllers
 
         }
 
-        [HttpGet("obterCaixaAberto/{data}")]
-        public RootResult ObterTodosCx1(DateTime data)
+        [HttpGet("obterCaixaAberto/{data}/{login}")]
+        public RootResult ObterTodosCx1(DateTime data, string login)
         {
-            var res = _cartaoDao.ObterTodosCx1(data).ToList();
+            var res = _cartaoDao.ObterTodosCx1(data, login).ToList();
             var totalPage = 1;
             return new RootResult()
             {

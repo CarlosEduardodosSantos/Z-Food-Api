@@ -9,6 +9,6 @@ namespace APIAlturas.ViewModels
         public string Login { get; set; }
         public DateTime Dia { get; set; }
         public DateTime Data { get; set; }
-        public decimal Valor { get; set; }
+        public decimal ? Valor { get; set; }
     }
 }

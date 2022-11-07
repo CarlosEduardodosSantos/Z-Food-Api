@@ -77,7 +77,7 @@ namespace APIAlturas
             {
                 conn.Open();
                 var consumo = conn
-                    .Query<CartaoConsumo>("select * from CartaoConsumo where RestauranteId = @RestauranteId", new { RestauranteId })
+                    .Query<CartaoConsumo>("select * from CartaoConsumo where RestauranteId = @RestauranteId order by nome", new { RestauranteId })
                     .ToList();
                 conn.Close();
 
@@ -327,7 +327,7 @@ namespace APIAlturas
 
         //Caixa1
 
-        public List<Caixa1> ObterTodosCx1(DateTime data)
+        public List<Caixa1> ObterTodosCx1(DateTime data, string login)
         {
 
             using (SqlConnection conn = new SqlConnection(
@@ -335,7 +335,7 @@ namespace APIAlturas
             {
                 conn.Open();
                 var appcaixa = conn
-                    .Query<Caixa1>("select * from CaixaCartao where Fechado = 0 and Dia = @data", new { data })
+                    .Query<Caixa1>("select * from CaixaCartao where Fechado = 0 and Dia = @data and login = @login order by data desc", new { data, login })
                     .ToList();
                 conn.Close();
 
@@ -362,8 +362,8 @@ namespace APIAlturas
 
         public void InsertCx1(Caixa1 caixa)
         {
-            var sql = "Insert Into CaixaCartao(Nro, Historico, Login, Data, Fechado, Valor, Metodo, Dia)" +
-                      "Values (@Nro, @Historico, @Login, @Data, @Fechado, @Valor, @Metodo, @Dia)";
+            var sql = "Insert Into CaixaCartao(Nro, Historico, Login, Data, Fechado, Valor, Metodo, Dia, MovId)" +
+                      "Values (@Nro, @Historico, @Login, @Data, @Fechado, @Valor, @Metodo, @Dia, @MovId)";
             using (SqlConnection conn = new SqlConnection(
                 _configuration.GetConnectionString("ViPFood")))
             {
@@ -379,7 +379,8 @@ namespace APIAlturas
                         Fechado = 0,
                         Valor = caixa.Valor,
                         Metodo = caixa.Metodo,
-                        Dia = DateTime.Now
+                        Dia = DateTime.Now,
+                        MovId = caixa.MovId
 
                     });
                 conn.Close();
@@ -404,6 +405,21 @@ namespace APIAlturas
             }
         }
 
+        public void DeleteCaix(string id)
+        {
+            using (SqlConnection conn = new SqlConnection(
+                _configuration.GetConnectionString("ViPFood")))
+            {
+                conn.Open();
+                conn.Query("Delete from CaixaCartao where MovId = @CartaoConsumoMovId",
+                    new
+                    {
+                        CartaoConsumoMovId = Guid.Parse(id)
+                    });
+                conn.Close();
+            }
+        }
+
         //auditoria
 
         public List<AuditoriaConsumo> ObterAuditoriaDia(DateTime data)
@@ -414,7 +430,7 @@ namespace APIAlturas
             {
                 conn.Open();
                 var appcaixa = conn
-                    .Query<AuditoriaConsumo>("select * from AuditoriaConsumo where Dia = @data", new { data })
+                    .Query<AuditoriaConsumo>("select * from AuditoriaConsumo where Dia = @data order by Data desc", new { data })
                     .ToList();
                 conn.Close();
 
@@ -430,7 +446,7 @@ namespace APIAlturas
             {
                 conn.Open();
                 var appcaixa = conn
-                    .Query<AuditoriaConsumo>("select * from AuditoriaConsumo")
+                    .Query<AuditoriaConsumo>("select * from AuditoriaConsumo order by Data desc")
                     .ToList();
                 conn.Close();
 

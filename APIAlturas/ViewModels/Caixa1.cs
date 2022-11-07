@@ -17,5 +17,6 @@ namespace APIAlturas.ViewModels
         public decimal Valor { get; set; }
         public int Metodo { get; set; }
         public DateTime Dia { get; set; }
+        public Guid MovId { get; set; }
     }
 }
