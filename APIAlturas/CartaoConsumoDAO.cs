@@ -253,7 +253,7 @@ namespace APIAlturas
                  conn.Query(sql,
                      new
                      {
-                         CartaoConsumoMovId = Guid.NewGuid(),
+                         CartaoConsumoMovId = consumo.CartaoConsumoMovId,
                          CartaoConsumoId = consumo.CartaoConsumoId,
                          DataMov = DateTime.Now,
                          Historico = consumo.Historico,

@@ -149,8 +149,8 @@ namespace APIAlturas.Controllers
             }
         }
 
-        [HttpDelete("deletarConsu/{id}")]
-        public object Delete(string id)
+        [HttpDelete("deletarConsu/{id}/{login}")]
+        public object Delete(string id, string login)
         {
 
             try
@@ -159,7 +159,7 @@ namespace APIAlturas.Controllers
                 var auditoria = new AuditoriaConsumo()
                 {
                     Historico = "Cartão Deletado " + data.Numero,
-                    Login = data.RegistradoPor
+                    Login = login
                 };
 
                 _cartaoDao.Delete(id);
@@ -308,6 +308,7 @@ namespace APIAlturas.Controllers
 
                 var cartaoMov = new CartaoConsumoMov()
                 {
+                    CartaoConsumoMovId = Guid.NewGuid(),
                     CartaoConsumoId = cartao.CartaoConsumoId,
                     DataMov = cartaoModel.DataMov,
                     Saldo = valorRetorno,
@@ -318,15 +319,7 @@ namespace APIAlturas.Controllers
                     Metodo = cartaoModel.Metodo
                 };
 
-                var caixa1 = new Caixa1()
-                {
-                    Nro = cartao.Numero,
-                    Historico = "Movimentação Cartão Consumo",
-                    Login = cartaoMov.Login,
-                    Valor = cartaoMov.Saldo,
-                    Metodo = cartaoMov.Metodo,
-                    MovId = cartaoMov.CartaoConsumoMovId
-                };
+
 
                 if(cartaoMov.TipoMov == 2 && cartaoMov.Metodo == 5)
                 {
@@ -340,7 +333,18 @@ namespace APIAlturas.Controllers
                 };
 
                 
-                _cartaoDao.InsertMov(cartaoMov);
+               _cartaoDao.InsertMov(cartaoMov);
+
+                var caixa1 = new Caixa1()
+                {
+                    Nro = cartao.Numero,
+                    Historico = "Movimentação Cartão Consumo",
+                    Login = cartaoMov.Login,
+                    Valor = cartaoMov.Saldo,
+                    Metodo = cartaoMov.Metodo,
+                    MovId = cartaoMov.CartaoConsumoMovId
+                };
+
                 _cartaoDao.InsertCx1(caixa1);
                 _cartaoDao.InsertAuditoria(auditoria);
                 return new { Aproved = true, Mensage = "Operação realizada com sucesso.", Valor = valorRetorno, Saldo = saldo, Frete = cartao.Frete, Desconto = cartao.Desconto, Cliente = cartao.Nome };
@@ -438,8 +442,8 @@ namespace APIAlturas.Controllers
         }
 
 
-        [HttpDelete("deletarMov/{id}")]
-        public object DeleteMov(string id)
+        [HttpDelete("deletarMov/{id}/{login}")]
+        public object DeleteMov(string id, string login)
         {
 
             try
@@ -489,7 +493,7 @@ namespace APIAlturas.Controllers
                 var auditoria = new AuditoriaConsumo()
                 {
                     Historico = "Estorno Cartão Consumo " + data.Numero,
-                    Login = mov.Login,
+                    Login = login,
                     Valor = mov.Saldo
                 };
                 _cartaoDao.InsertAuditoria(auditoria);
