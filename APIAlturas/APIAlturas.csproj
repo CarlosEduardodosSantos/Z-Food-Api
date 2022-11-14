@@ -5,6 +5,10 @@
      <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
      <UserSecretsId>0eec9db9-4f85-4758-b5a0-8fe7425dd654</UserSecretsId>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="ViewModels\EnumMetodos.cs" />
+  </ItemGroup>
   
 
   <ItemGroup>

@@ -465,6 +465,7 @@ namespace APIAlturas.Controllers
                     datau.RestauranteId = data.RestauranteId;
                     datau.Grupo = data.Grupo;
                     datau.RegistradoPor = datau.RegistradoPor;
+                    datau.Frete = data.Frete;
                     datau.SaldoAtual = Convert.ToDecimal(soma);
                     _cartaoDao.Update(datau);
                 }
@@ -483,6 +484,7 @@ namespace APIAlturas.Controllers
                     datau.RestauranteId = data.RestauranteId;
                     datau.Grupo = data.Grupo;
                     datau.RegistradoPor = datau.RegistradoPor;
+                    datau.Frete = data.Frete;
                     datau.SaldoAtual = Convert.ToDecimal(soma);
                     _cartaoDao.Update(datau);
                 }
