@@ -27,10 +27,10 @@ namespace APIAlturas.Controllers
 
         }
 
-        [HttpGet("obterTodosGrupo")]
-        public RootResult ObterTodosConsu()
+        [HttpGet("obterTodosGrupo/{resId}")]
+        public RootResult ObterTodosConsu(int resId)
         {
-            var data = _grupoDao.ObterTodos().ToList();
+            var data = _grupoDao.ObterTodos(resId).ToList();
             var totalPage = 1;
             return new RootResult()
             {

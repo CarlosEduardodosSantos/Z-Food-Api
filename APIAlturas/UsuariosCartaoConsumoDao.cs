@@ -18,7 +18,7 @@ namespace APIAlturas
             _configuration = configuration;
         }
 
-        public List<UsuariosCartaoConsumoModel> ObterUserPorSenha(string Login, string Senha)
+        public List<UsuariosCartaoConsumoModel> ObterUserPorSenha(string Login, string Senha, int resId)
         {
 
             using (var conn = new SqlConnection(
@@ -26,7 +26,7 @@ namespace APIAlturas
             {
                 conn.Open();
                 var login = conn
-                    .Query<UsuariosCartaoConsumoModel>("select * from UsuariosCartaoConsumo where Login = @Login and Senha = @Senha", new { Login, Senha })
+                    .Query<UsuariosCartaoConsumoModel>("select * from UsuariosCartaoConsumo where Login = @Login and Senha = @Senha and RestauranteId = @resId", new { Login, Senha, resId })
                     .ToList();
                 conn.Close();
 

@@ -4,5 +4,6 @@
     {
         public int GrupoId { get; set; }
         public string Descricao { get; set; }
+        public int RestauranteId { get; set; }
     }
 }

@@ -18,5 +18,6 @@ namespace APIAlturas.ViewModels
         public int Metodo { get; set; }
         public DateTime Dia { get; set; }
         public Guid MovId { get; set; }
+        public int RestauranteId { get; set; }
     }
 }

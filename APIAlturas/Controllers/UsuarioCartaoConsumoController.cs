@@ -21,11 +21,11 @@ namespace APIAlturas.Controllers
         }
 
 
-        [HttpGet("obterLogin/{Login}/{Senha}")]
-        public UsuariosCartaoConsumoModel ObterLoginPorId(string Login, string Senha)
+        [HttpGet("obterLogin/{Login}/{Senha}/{resId}")]
+        public UsuariosCartaoConsumoModel ObterLoginPorId(string Login, string Senha, int resId)
         {
 
-                var data = _usuariosDAL.ObterUserPorSenha(Login, Senha).FirstOrDefault();
+                var data = _usuariosDAL.ObterUserPorSenha(Login, Senha, resId).FirstOrDefault();
                 return data;
 
         }

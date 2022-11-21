@@ -18,7 +18,7 @@ namespace APIAlturas
             _configuration = configuration;
         }
 
-        public List<GrupoConsumo> ObterTodos()
+        public List<GrupoConsumo> ObterTodos(int resId)
         {
 
             using (SqlConnection conn = new SqlConnection(
@@ -26,7 +26,7 @@ namespace APIAlturas
             {
                 conn.Open();
                 var grupoconsumo = conn
-                    .Query<GrupoConsumo>("select * from GrupoConsumo")
+                    .Query<GrupoConsumo>("select * from GrupoConsumo where RestauranteId = @resId", new { resId})
                     .ToList();
                 conn.Close();
 
@@ -54,8 +54,8 @@ namespace APIAlturas
 
         public void Insert(GrupoConsumo grupo)
         {
-            var sql = "Insert Into GrupoConsumo(Descricao)" +
-                      "Values (@Descricao)";
+            var sql = "Insert Into GrupoConsumo(Descricao, RestauranteId)" +
+                      "Values (@Descricao, @RestauranteId)";
             using (SqlConnection conn = new SqlConnection(
                 _configuration.GetConnectionString("ViPFood")))
             {
@@ -64,7 +64,8 @@ namespace APIAlturas
                     new
                     {
                         GrupoId = grupo.GrupoId,
-                        Descricao = grupo.Descricao
+                        Descricao = grupo.Descricao,
+                        RestauranteId = grupo.RestauranteId
 
                     }); ; ;
                 conn.Close();

@@ -10,5 +10,6 @@ namespace APIAlturas.ViewModels
         public DateTime Dia { get; set; }
         public DateTime Data { get; set; }
         public decimal ? Valor { get; set; }
+        public int RestauranteId { get; set; }
     }
 }

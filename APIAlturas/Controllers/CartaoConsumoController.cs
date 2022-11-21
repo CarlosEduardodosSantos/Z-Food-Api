@@ -342,7 +342,8 @@ namespace APIAlturas.Controllers
                     Login = cartaoMov.Login,
                     Valor = cartaoMov.Saldo,
                     Metodo = cartaoMov.Metodo,
-                    MovId = cartaoMov.CartaoConsumoMovId
+                    MovId = cartaoMov.CartaoConsumoMovId,
+                    RestauranteId = cartao.RestauranteId
                 };
 
                 _cartaoDao.InsertCx1(caixa1);
@@ -541,10 +542,10 @@ namespace APIAlturas.Controllers
 
         }
 
-        [HttpGet("obterCaixaAberto/{data}/{login}")]
-        public RootResult ObterTodosCx1(DateTime data, string login)
+        [HttpGet("obterCaixaAberto/{data}/{login}/{resId}")]
+        public RootResult ObterTodosCx1(DateTime data, string login, int resId)
         {
-            var res = _cartaoDao.ObterTodosCx1(data, login).ToList();
+            var res = _cartaoDao.ObterTodosCx1(data, login, resId).ToList();
             var totalPage = 1;
             return new RootResult()
             {
@@ -590,10 +591,10 @@ namespace APIAlturas.Controllers
             }
         }
 
-        [HttpGet("obterAuditoria")]
-        public RootResult ObterAuditoria()
+        [HttpGet("obterAuditoria/{resId}")]
+        public RootResult ObterAuditoria(int resId)
         {
-            var res = _cartaoDao.ObterAuditoriaTodos().ToList();
+            var res = _cartaoDao.ObterAuditoriaTodos(resId).ToList();
             var totalPage = 1;
             return new RootResult()
             {
@@ -603,10 +604,10 @@ namespace APIAlturas.Controllers
 
         }
 
-        [HttpGet("obterAuditoriaData/{data}")]
-        public RootResult ObterAuditoriaDia(DateTime data)
+        [HttpGet("obterAuditoriaData/{data}/{resId}")]
+        public RootResult ObterAuditoriaDia(DateTime data, int resId)
         {
-            var res = _cartaoDao.ObterAuditoriaDia(data).ToList();
+            var res = _cartaoDao.ObterAuditoriaDia(data, resId).ToList();
             var totalPage = 1;
             return new RootResult()
             {

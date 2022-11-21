@@ -327,7 +327,7 @@ namespace APIAlturas
 
         //Caixa1
 
-        public List<Caixa1> ObterTodosCx1(DateTime data, string login)
+        public List<Caixa1> ObterTodosCx1(DateTime data, string login, int resId)
         {
 
             using (SqlConnection conn = new SqlConnection(
@@ -335,7 +335,7 @@ namespace APIAlturas
             {
                 conn.Open();
                 var appcaixa = conn
-                    .Query<Caixa1>("select * from CaixaCartao where Fechado = 0 and Dia = @data and login = @login order by data desc", new { data, login })
+                    .Query<Caixa1>("select * from CaixaCartao where RestauranteId = @resId and Fechado = 0 and Dia = @data and login = @login order by data desc", new { data, login, resId })
                     .ToList();
                 conn.Close();
 
@@ -362,8 +362,8 @@ namespace APIAlturas
 
         public void InsertCx1(Caixa1 caixa)
         {
-            var sql = "Insert Into CaixaCartao(Nro, Historico, Login, Data, Fechado, Valor, Metodo, Dia, MovId)" +
-                      "Values (@Nro, @Historico, @Login, @Data, @Fechado, @Valor, @Metodo, @Dia, @MovId)";
+            var sql = "Insert Into CaixaCartao(Nro, Historico, Login, Data, Fechado, Valor, Metodo, Dia, MovId, RestauranteId)" +
+                      "Values (@Nro, @Historico, @Login, @Data, @Fechado, @Valor, @Metodo, @Dia, @MovId, @RestauranteId)";
             using (SqlConnection conn = new SqlConnection(
                 _configuration.GetConnectionString("ViPFood")))
             {
@@ -380,7 +380,8 @@ namespace APIAlturas
                         Valor = caixa.Valor,
                         Metodo = caixa.Metodo,
                         Dia = DateTime.Now,
-                        MovId = caixa.MovId
+                        MovId = caixa.MovId,
+                        RestauranteId = caixa.RestauranteId
 
                     });
                 conn.Close();
@@ -423,7 +424,7 @@ namespace APIAlturas
 
         //auditoria
 
-        public List<AuditoriaConsumo> ObterAuditoriaDia(DateTime data)
+        public List<AuditoriaConsumo> ObterAuditoriaDia(DateTime data, int resId)
         {
 
             using (SqlConnection conn = new SqlConnection(
@@ -431,7 +432,7 @@ namespace APIAlturas
             {
                 conn.Open();
                 var appcaixa = conn
-                    .Query<AuditoriaConsumo>("select * from AuditoriaConsumo where Dia = @data order by Data desc", new { data })
+                    .Query<AuditoriaConsumo>("select * from AuditoriaConsumo where Dia = @data and RestauranteId = @resId order by Data desc", new { data, resId })
                     .ToList();
                 conn.Close();
 
@@ -439,7 +440,7 @@ namespace APIAlturas
             }
         }
 
-        public List<AuditoriaConsumo> ObterAuditoriaTodos()
+        public List<AuditoriaConsumo> ObterAuditoriaTodos(int resId)
         {
 
             using (SqlConnection conn = new SqlConnection(
@@ -447,7 +448,7 @@ namespace APIAlturas
             {
                 conn.Open();
                 var appcaixa = conn
-                    .Query<AuditoriaConsumo>("select * from AuditoriaConsumo order by Data desc")
+                    .Query<AuditoriaConsumo>("select * from AuditoriaConsumo where RestauranteId = @resId order by Data desc", new { resId })
                     .ToList();
                 conn.Close();
 
@@ -457,8 +458,8 @@ namespace APIAlturas
 
         public void InsertAuditoria(AuditoriaConsumo caixa)
         {
-            var sql = "Insert Into AuditoriaConsumo(Historico, Login, Dia, Data, Valor)" +
-                      "Values (@Historico, @Login, @Dia, @Data, @Valor)";
+            var sql = "Insert Into AuditoriaConsumo(Historico, Login, Dia, Data, Valor, RestauranteId)" +
+                      "Values (@Historico, @Login, @Dia, @Data, @Valor, @RestauranteId)";
             using (SqlConnection conn = new SqlConnection(
                 _configuration.GetConnectionString("ViPFood")))
             {
@@ -470,7 +471,8 @@ namespace APIAlturas
                         Login = caixa.Login,
                         Dia = DateTime.Now,
                         Data = DateTime.Now,
-                        Valor = caixa.Valor
+                        Valor = caixa.Valor,
+                        RestauranteId = caixa.RestauranteId
 
                     });
                 conn.Close();
