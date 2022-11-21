@@ -388,10 +388,10 @@ namespace APIAlturas
             }
         }
 
-        public void FecharCx1(DateTime data, string login)
+        public void FecharCx1(DateTime data, string login, int resId)
         {
             var sql = "Update CaixaCartao set DataFechamento=@DataFechamento, Fechado= 1" +
-                      " where Dia = @Data and login = @Login";
+                      " where Dia = @Data and login = @Login and RestauranteId = @resId";
             using (SqlConnection conn = new SqlConnection(
                 _configuration.GetConnectionString("ViPFood")))
             {
@@ -401,7 +401,8 @@ namespace APIAlturas
                     {
                         Data = data,
                         DataFechamento = DateTime.Now,
-                        Login = login
+                        Login = login,
+                        resId = resId
                     });
                 conn.Close();
             }

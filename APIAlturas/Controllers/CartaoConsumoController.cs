@@ -97,7 +97,8 @@ namespace APIAlturas.Controllers
                     var auditoria = new AuditoriaConsumo()
                     {
                         Historico = "Novo Cartão Registrado " + cartao.Numero,
-                        Login = cartao.RegistradoPor
+                        Login = cartao.RegistradoPor,
+                        RestauranteId = cartao.RestauranteId
                     };
 
                     _cartaoDao.InsertAuditoria(auditoria);
@@ -159,7 +160,8 @@ namespace APIAlturas.Controllers
                 var auditoria = new AuditoriaConsumo()
                 {
                     Historico = "Cartão Deletado " + data.Numero,
-                    Login = login
+                    Login = login,
+                    RestauranteId = data.RestauranteId 
                 };
 
                 _cartaoDao.Delete(id);
@@ -329,7 +331,8 @@ namespace APIAlturas.Controllers
                 {
                     Historico = "Movimentação Cartão Consumo " + cartao.Numero + " " +(metodos)cartaoMov.Metodo + imp,
                     Login = cartaoMov.Login,
-                    Valor = cartaoMov.Saldo
+                    Valor = cartaoMov.Saldo,
+                    RestauranteId = cartao.RestauranteId
                 };
 
                 
@@ -497,7 +500,8 @@ namespace APIAlturas.Controllers
                 {
                     Historico = "Estorno Cartão Consumo " + data.Numero,
                     Login = login,
-                    Valor = mov.Saldo
+                    Valor = mov.Saldo,
+                    RestauranteId = data.RestauranteId
                 };
                 _cartaoDao.InsertAuditoria(auditoria);
 
@@ -556,8 +560,8 @@ namespace APIAlturas.Controllers
         }
 
 
-        [HttpPut("fecharCaixa/{data}/{login}/{total}")]
-        public object fecharCaixa(DateTime data, string login, decimal total)
+        [HttpPut("fecharCaixa/{data}/{login}/{total}/{resId}")]
+        public object fecharCaixa(DateTime data, string login, decimal total, int resId)
         {
             try
             {
@@ -565,10 +569,11 @@ namespace APIAlturas.Controllers
                 {
                     Historico = "Fechamento de Caixa",
                     Login = login,  
-                    Valor = total
+                    Valor = total,
+                    RestauranteId = resId
                 };
 
-                _cartaoDao.FecharCx1(data, login);
+                _cartaoDao.FecharCx1(data, login, resId);
                 _cartaoDao.InsertAuditoria(auditoria);
                 return new
                 {
