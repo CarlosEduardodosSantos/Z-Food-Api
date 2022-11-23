@@ -351,7 +351,7 @@ namespace APIAlturas.Controllers
 
                 _cartaoDao.InsertCx1(caixa1);
                 _cartaoDao.InsertAuditoria(auditoria);
-                return new { Aproved = true, Mensage = "Operação realizada com sucesso.", Valor = valorRetorno, Saldo = saldo, Frete = cartao.Frete, Desconto = cartao.Desconto, Cliente = cartao.Nome };
+                return new { Aproved = true, Mensage = "Operação realizada com sucesso.", Valor = valorRetorno, Saldo = saldo, Frete = cartao.Frete, Desconto = cartao.Desconto, Cliente = cartao.Nome, MovId = cartaoMov.CartaoConsumoMovId };
 
             }
             catch (Exception e)
