@@ -127,16 +127,26 @@ namespace APIAlturas.Controllers
 
         }
 
-        [HttpPut("alterarConsu")]
-        public object Alterar([FromBody] CartaoConsumo cartao)
+        [HttpPut("zerarCartao/{id}/{login}")]
+        public object Alterar(string id, string login)
         {
             try
             {
-                _cartaoDao.Update(cartao);
+                var data = _cartaoDao.ObterPorId(id).FirstOrDefault();
+                var auditoria = new AuditoriaConsumo()
+                {
+                    Historico = "Cartão Zerado " + data.Numero,
+                    Login = login,
+                    RestauranteId = data.RestauranteId,
+                    Valor = data.SaldoAtual
+                };
+
+                _cartaoDao.ZerarCartao(id);
+                _cartaoDao.InsertAuditoria(auditoria);
                 return new
                 {
                     errors = false,
-                    message = "Cadastro atualizado com sucesso."
+                    message = "Cartão Zerado."
                 };
             }
 

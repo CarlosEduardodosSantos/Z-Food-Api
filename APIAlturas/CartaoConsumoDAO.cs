@@ -479,5 +479,22 @@ namespace APIAlturas
                 conn.Close();
             }
         }
+
+        public void ZerarCartao(string consumo)
+        {
+            var sql = "Update CartaoConsumo set SaldoAtual= 0" +
+                      " where CartaoConsumoId = @CartaoConsumoId";
+            using (SqlConnection conn = new SqlConnection(
+                _configuration.GetConnectionString("ViPFood")))
+            {
+                conn.Open();
+                conn.Query(sql,
+                    new
+                    {
+                        CartaoConsumoId = consumo
+                    });
+                conn.Close();
+            }
+        }
     }
 }
