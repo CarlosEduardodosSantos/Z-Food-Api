@@ -19,6 +19,7 @@ namespace APIAlturas.Controllers
             Crédito = 3,
             CartãoConsumo = 4,
             Implantação = 5,
+            Voucher = 6,
             Negativa = 0
         }
 
