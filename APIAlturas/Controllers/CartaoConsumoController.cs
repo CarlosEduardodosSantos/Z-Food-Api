@@ -122,7 +122,7 @@ namespace APIAlturas.Controllers
             }
             else
             {
-                return new { errors = true, message = "O cartão está sem saldo!" };
+                return new { errors = true, message = "O cartão está sem saldo" };
             }
 
         }
@@ -267,7 +267,7 @@ namespace APIAlturas.Controllers
 
                 if (cartaoModel.TipoMov == 2)
                 {
-                    if (soma < 0) { return new { Aproved = false, Mensage = "Saldo indisponível." }; }
+                    if (soma < 0) { return new { Aproved = false, Mensage = "Saldo indisponível. Seu Saldo Atual é: " + cartao.SaldoAtual }; }
                     else
                     {
                         CartaoConsumo datau = new CartaoConsumo();
