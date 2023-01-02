@@ -52,10 +52,27 @@ namespace APIAlturas
 
         }
 
+        public List<GrupoConsumo> ObterPorNome(string nome, int resId)
+        {
+
+            using (SqlConnection conn = new SqlConnection(
+                _configuration.GetConnectionString("ViPFood")))
+            {
+                conn.Open();
+                var grupoconsumo = conn
+                    .Query<GrupoConsumo>("select * from GrupoConsumo where Descricao = @nome and RestauranteId =@resId", new { nome, resId })
+                    .ToList();
+                conn.Close();
+
+                return grupoconsumo;
+            }
+
+        }
+
         public void Insert(GrupoConsumo grupo)
         {
-            var sql = "Insert Into GrupoConsumo(Descricao, RestauranteId)" +
-                      "Values (@Descricao, @RestauranteId)";
+            var sql = "Insert Into GrupoConsumo(Descricao, RestauranteId, Frete)" +
+                      "Values (@Descricao, @RestauranteId, @Frete)";
             using (SqlConnection conn = new SqlConnection(
                 _configuration.GetConnectionString("ViPFood")))
             {
@@ -65,7 +82,8 @@ namespace APIAlturas
                     {
                         GrupoId = grupo.GrupoId,
                         Descricao = grupo.Descricao,
-                        RestauranteId = grupo.RestauranteId
+                        RestauranteId = grupo.RestauranteId,
+                        Frete = grupo.Frete
 
                     }); ; ;
                 conn.Close();
@@ -74,7 +92,7 @@ namespace APIAlturas
 
         public void Update(GrupoConsumo grupo)
         {
-            var sql = "Update GrupoConsumo set Descricao=@Descricao" +
+            var sql = "Update GrupoConsumo set Descricao=@Descricao, Frete=@Frete" +
                       " where GrupoId = @GrupoId";
             using (SqlConnection conn = new SqlConnection(
                 _configuration.GetConnectionString("ViPFood")))
@@ -84,8 +102,8 @@ namespace APIAlturas
                     new
                     {
                         GrupoId = grupo.GrupoId,
-                        Descricao = grupo.Descricao
-
+                        Descricao = grupo.Descricao,
+                        Frete = grupo.Frete
 
                     });
                 conn.Close();
@@ -99,6 +117,25 @@ namespace APIAlturas
             {
                 conn.Open();
                 conn.Query("Delete from GrupoConsumo where GrupoId = @id", new { id });
+                conn.Close();
+            }
+        }
+
+        public void AtualizarGrupoNota(string grupo, int resId, bool frete)
+        {
+            var sql = "Update CartaoConsumo set Frete = @Frete" +
+                      " where Grupo = @Grupo and RestauranteId = @resId";
+            using (SqlConnection conn = new SqlConnection(
+                _configuration.GetConnectionString("ViPFood")))
+            {
+                conn.Open();
+                conn.Query(sql,
+                    new
+                    {
+                        Frete = frete,
+                        Grupo = grupo,
+                        resId = resId
+                    });
                 conn.Close();
             }
         }

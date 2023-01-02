@@ -27,6 +27,14 @@ namespace APIAlturas.Controllers
 
         }
 
+        [HttpGet("obterByGrupoNome/{nome}/{resId}")]
+        public GrupoConsumo ObterConsulPorNome(string nome, int resId)
+        {
+            var data = _grupoDao.ObterPorNome(nome, resId).FirstOrDefault();
+            return data;
+
+        }
+
         [HttpGet("obterTodosGrupo/{resId}")]
         public RootResult ObterTodosConsu(int resId)
         {
@@ -71,6 +79,7 @@ namespace APIAlturas.Controllers
             try
             {
                 _grupoDao.Update(grupo);
+                _grupoDao.AtualizarGrupoNota(grupo.Descricao, grupo.RestauranteId, grupo.Frete);
                 return new
                 {
                     errors = false,
