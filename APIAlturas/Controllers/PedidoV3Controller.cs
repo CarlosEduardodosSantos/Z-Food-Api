@@ -86,7 +86,7 @@ namespace APIAlturas.Controllers
                                  namePrincipal = item.Produto.Nome,
                                  tamanho = item.Produto.TamanhoId == 1 ? "Grande" : item.Produto.TamanhoId == 2 ? "Média" : "Pequeno",
                                  quantity = Convert.ToInt32(item.Quantidade),
-                                 unitPriceCalc = item.ValorUnitario,
+                                 unitPriceCalc = item.Valortotal / item.Quantidade,
                                  unitPrice = item.ValorUnitario,
                                  optionsPrice = item.PedidoItemOpcoes.Sum(t => t.Valor),
                                  price = item.Valorprodutos,

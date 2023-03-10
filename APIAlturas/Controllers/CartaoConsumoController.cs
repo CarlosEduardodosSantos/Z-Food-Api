@@ -600,10 +600,6 @@ namespace APIAlturas.Controllers
                     errors = true,
                     message = e.Message
                 };
-
-
-
-
             }
         }
 

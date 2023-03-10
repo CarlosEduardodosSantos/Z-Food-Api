@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Extensions.Configuration;
 using Dapper;
+using APIAlturas.ViewModels;
 
 namespace APIAlturas
 {
@@ -111,6 +112,89 @@ namespace APIAlturas
                 param.Add("@Facebook", usuario.Facebook);
 
                 conexao.Query(sql.ToString(), param);
+            }
+        }
+
+        public List<Users> ObterPorTelefone(string telefone, int restauranteId)
+        {
+            using (SqlConnection conn = new SqlConnection(
+                _configuration.GetConnectionString("ViPFood")))
+            {
+                try
+                {
+                    conn.Open();
+                    var usuario = conn
+                        .Query<Users>("select * from Users where fone = @Telefone AND restauranteId = @Restaurante", new { Telefone = telefone, Restaurante = restauranteId })
+                        .ToList();
+                    conn.Close();
+
+                    return usuario;
+                }
+                catch (SqlException e)
+                {
+                    var erro = e;
+                    return null;
+                }
+            }
+
+        }
+        public void CadastrarPorTelefone(Users dadosUsuario)
+        {
+            var sql = "Insert Into Users(userid, accesskey, nome, fone, logradouro, numero, bairro, cep, localidade, uf, complemento, restauranteid)" +
+                      "Values (@userID, '', @nome, @fone, @logradouro, @numero, @bairro, @cep, @localidade, @uf, @complemento, @restauranteId)";
+            using (SqlConnection conn = new SqlConnection(
+                _configuration.GetConnectionString("ViPFood")))
+            {
+                conn.Open();
+                conn.Query(sql,
+                    new
+                    {
+                        userID = Guid.NewGuid(),
+                        nome = dadosUsuario.nome,
+                        fone = dadosUsuario.fone,
+                        logradouro = dadosUsuario.logradouro,
+                        numero = dadosUsuario.numero,
+                        bairro = dadosUsuario.bairro,
+                        cep = dadosUsuario.cep,
+                        localidade = dadosUsuario.localidade,
+                        uf = dadosUsuario.uf,
+                        complemento = dadosUsuario.complemento,
+                        restauranteId = dadosUsuario.restauranteId
+                    }); ;
+                conn.Close();
+            }
+        }
+        public void AtualizarPorTelefone(Users dadosUsuario)
+        {
+            var sql = "Update Users SET " +
+                      "logradouro = @Logradouro," +
+                      "numero = @Numero," +
+                      "bairro = @Bairro," +
+                      "cep = @CEP," +
+                      "localidade = @Localidade," +
+                      "uf = @UF," +
+                      "complemento = @Complemento " +
+                      "Where restauranteId = @RestauranteID AND " +
+                      "fone = @Fone";
+            using (SqlConnection conn = new SqlConnection(
+                _configuration.GetConnectionString("ViPFood")))
+            {
+                conn.Open();
+                var usuario = conn
+                    .Query(sql,
+                    new
+                    {
+                        Logradouro = dadosUsuario.logradouro,
+                        Numero = dadosUsuario.numero,
+                        Bairro = dadosUsuario.bairro,
+                        CEP = dadosUsuario.cep,
+                        Localidade = dadosUsuario.localidade,
+                        UF = dadosUsuario.uf,
+                        Complemento = dadosUsuario.complemento,
+                        RestauranteID = dadosUsuario.restauranteId,
+                        Fone = dadosUsuario.fone
+                    });
+                conn.Close();
             }
         }
     }

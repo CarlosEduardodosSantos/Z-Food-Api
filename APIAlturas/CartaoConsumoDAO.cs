@@ -496,6 +496,5 @@ namespace APIAlturas
                 conn.Close();
             }
         }
-
     }
 }

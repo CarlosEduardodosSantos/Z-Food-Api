@@ -29,6 +29,14 @@ namespace APIAlturas
             {
                 try
                 {
+                    if (carrinho.IsEntrega == true)
+                    {
+                        carrinho.OrderType = "DELIVERY";
+                    } else if (carrinho.IsEntrega == false)
+                    {
+                        carrinho.OrderType = "TAKEOUT";
+                    }
+
                     var sqlPedido = new StringBuilder();
                     sqlPedido.AppendLine(
                         "Insert Into Pedidos(PedidoGuid, UsuarioGuid, DataHora, RestauranteId, Subtotal, DescontoTotal, EntregaTotal,");
@@ -192,31 +200,33 @@ namespace APIAlturas
 
                     if (carrinho.Adress != null)
                     {
+                        if (carrinho.Adress.bairro != null && carrinho.Adress.uf != null && carrinho.Adress.cep != null && carrinho.Adress.logradouro != null && carrinho.Adress.localidade != null)
+                        {
+                            //Endereço entrega
+                            if (string.IsNullOrEmpty(carrinho.Adress?.cep) && carrinho.IsEntrega)
+                                throw new Exception("Encontramos problema no endereço.");
 
-                        //Endereço entrega
-                        if (string.IsNullOrEmpty(carrinho.Adress?.cep) && carrinho.IsEntrega)
-                            throw new Exception("Encontramos problema no endereço.");
 
+                            var sqlEndereco = new StringBuilder();
+                            sqlEndereco.AppendLine("Insert Into PedidoEntrega(PedidoEntregaGuid, PedidoGuid, UsuarioGuid, cep, logradouro, complemento,");
+                            sqlEndereco.AppendLine("bairro, localidade, uf, unidade, numero) Values(@PedidoEntregaGuid, @PedidoGuid, @UsuarioGuid,");
+                            sqlEndereco.AppendLine("@cep, @logradouro, @complemento, @bairro, @localidade, @uf, @unidade, @numero)");
 
-                        var sqlEndereco = new StringBuilder();
-                        sqlEndereco.AppendLine("Insert Into PedidoEntrega(PedidoEntregaGuid, PedidoGuid, UsuarioGuid, cep, logradouro, complemento,");
-                        sqlEndereco.AppendLine("bairro, localidade, uf, unidade, numero) Values(@PedidoEntregaGuid, @PedidoGuid, @UsuarioGuid,");
-                        sqlEndereco.AppendLine("@cep, @logradouro, @complemento, @bairro, @localidade, @uf, @unidade, @numero)");
+                            var parmsEndereco = new DynamicParameters();
+                            parmsEndereco.Add("@PedidoEntregaGuid", Guid.NewGuid());
+                            parmsEndereco.Add("@PedidoGuid", carrinho.CarrinhoIdGuid);
+                            parmsEndereco.Add("@UsuarioGuid", carrinho.UsuarioGuid);
+                            parmsEndereco.Add("@cep", carrinho.Adress.cep);
+                            parmsEndereco.Add("@logradouro", carrinho.Adress.logradouro);
+                            parmsEndereco.Add("@complemento", carrinho.Adress.complemento);
+                            parmsEndereco.Add("@bairro", carrinho.Adress.bairro);
+                            parmsEndereco.Add("@localidade", carrinho.Adress.localidade);
+                            parmsEndereco.Add("@uf", carrinho.Adress.uf);
+                            parmsEndereco.Add("@unidade", carrinho.Adress.unidade);
+                            parmsEndereco.Add("@numero", carrinho.Adress.numero);
 
-                        var parmsEndereco = new DynamicParameters();
-                        parmsEndereco.Add("@PedidoEntregaGuid", Guid.NewGuid());
-                        parmsEndereco.Add("@PedidoGuid", carrinho.CarrinhoIdGuid);
-                        parmsEndereco.Add("@UsuarioGuid", carrinho.UsuarioGuid);
-                        parmsEndereco.Add("@cep", carrinho.Adress.cep);
-                        parmsEndereco.Add("@logradouro", carrinho.Adress.logradouro);
-                        parmsEndereco.Add("@complemento", carrinho.Adress.complemento);
-                        parmsEndereco.Add("@bairro", carrinho.Adress.bairro);
-                        parmsEndereco.Add("@localidade", carrinho.Adress.localidade);
-                        parmsEndereco.Add("@uf", carrinho.Adress.uf);
-                        parmsEndereco.Add("@unidade", carrinho.Adress.unidade);
-                        parmsEndereco.Add("@numero", carrinho.Adress.numero);
-
-                        conn.Query(sqlEndereco.ToString(), parmsEndereco);
+                            conn.Query(sqlEndereco.ToString(), parmsEndereco);
+                        }
                     }
 
                     //Grava Cupom
